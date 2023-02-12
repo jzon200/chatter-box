@@ -1,6 +1,6 @@
 import { Fragment } from "react";
-import ContactsSidebar from "./components/ContactsSidebar";
 import ContactContent from "./components/ContactContent";
+import ContactsSidebar from "./components/ContactsSidebar";
 
 export default function App() {
   return (
