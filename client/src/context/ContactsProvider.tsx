@@ -1,26 +1,8 @@
-import {
-  Dispatch,
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-} from "react";
+import { Dispatch, ReactNode, createContext, useContext } from "react";
 import { useImmerReducer } from "use-immer";
-import { useSocket } from "./SocketProvider";
 
 const ContactsContext = createContext<Contact[] | null>(null);
 const ContactsDispatchContext = createContext<Dispatch<Action> | null>(null);
-
-type Message = {
-  text: string;
-  fromUser: boolean;
-};
-
-type Contact = {
-  id: string;
-  messages: Message[];
-};
 
 export function useContacts() {
   return useContext(ContactsContext)!;

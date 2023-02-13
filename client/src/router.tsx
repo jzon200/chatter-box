@@ -1,24 +1,26 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
-import ContactContent from "./components/ContactContent";
 import ContactDetails from "./components/ContactDetails";
-import ContactsSidebar from "./components/ContactsSidebar";
 import ContactsProvider from "./context/ContactsProvider";
 import SocketProvider from "./context/SocketProvider";
+import Contacts from "./pages/Contacts";
+import Login from "./pages/Login";
 import NewContact from "./pages/NewContact";
+import UsersProvider from "./context/UsersProvider";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
     element: <App />,
     children: [
+      { path: "/", element: <Login /> },
       {
-        element: <ContactContent />,
+        path: "/contacts",
+        element: <Contacts />,
         children: [
           {
-            path: "/new",
+            path: "/contacts/new",
             element: <NewContact />,
           },
-          { path: "/:contactId", element: <ContactDetails /> },
+          { path: "/contacts/:contactId", element: <ContactDetails /> },
         ],
       },
     ],
@@ -28,10 +30,11 @@ export const router = createBrowserRouter([
 function App() {
   return (
     <SocketProvider>
-      <ContactsProvider>
-        <ContactsSidebar />
-        <Outlet />
-      </ContactsProvider>
+      <UsersProvider>
+        <ContactsProvider>
+          <Outlet />
+        </ContactsProvider>
+      </UsersProvider>
     </SocketProvider>
   );
 }

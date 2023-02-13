@@ -18,11 +18,15 @@ io.on("connection", async (socket) => {
   const socketId = socket.id;
   console.log("New user connected", `ID: ${socketId}`);
 
-  const ids = await io.allSockets();
+  // const ids = await io.allSockets();
 
-  console.log(ids);
+  // console.log(ids);
 
-  io.emit("users", Array.from(ids));
+  // io.emit("users", Array.from(ids));
+
+  socket.on("login", ({ id, name }) => {
+    io.emit("users", { id, name });
+  });
 
   socket.on("send-message", (room, message) => {
     io.to(room).emit("receive-message", socketId, message);

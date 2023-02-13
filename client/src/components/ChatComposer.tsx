@@ -4,11 +4,11 @@ import { useSocket } from "../context/SocketProvider";
 import Input from "./Input";
 import { useParams } from "react-router-dom";
 import { useContactsDispatch } from "../context/ContactsProvider";
-
-type Props = {};
+import { useUsers } from "../context/UsersProvider";
 
 export default function ChatComposer() {
   const socket = useSocket();
+  const users = useUsers();
   const [message, setMessage] = useState("");
   const { contactId } = useParams();
   const dispatch = useContactsDispatch();
