@@ -18,8 +18,6 @@ io.on("connection", async (socket) => {
   const socketId = socket.id;
   console.log("New user connected", `ID: ${socketId}`);
 
-  // socket.join(socketId);
-
   const ids = await io.allSockets();
 
   console.log(ids);
@@ -28,13 +26,7 @@ io.on("connection", async (socket) => {
 
   socket.on("send-message", (room, message) => {
     io.to(room).emit("receive-message", socketId, message);
-    // io.to(socketId).emit("message", socketId, message);
   });
-
-  // socket.on("receive-message", (room, message) => {
-  //   io.to(room).emit("receive-message", socketId, message);
-  //   // io.to(socketId).emit("message", socketId, message);
-  // });
 });
 
 const PORT = process.env.PORT || 3000;

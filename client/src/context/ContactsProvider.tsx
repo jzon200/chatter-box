@@ -2,6 +2,7 @@ import {
   Dispatch,
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
 } from "react";
@@ -29,53 +30,35 @@ export function useContactsDispatch() {
   return useContext(ContactsDispatchContext)!;
 }
 
-type Action =
-  | {
-      type: "receive_message";
-      value: { id: string; message: string };
-    }
-  | {
-      type: "send_message";
-      value: { id: string; message: string };
-    };
+type Action = {
+  type: "add_message";
+  value: { id: string; message: string; fromUser: boolean };
+};
 
 function contactsReducer(draft: Contact[], action: Action) {
   switch (action.type) {
-    case "receive_message": {
+    case "add_message": {
       const currentContact = draft.find(
         (contact) => contact.id === action.value.id
       );
 
       if (currentContact == null) {
+        // Add new conversation
         draft.unshift({
           id: action.value.id,
-          messages: [{ text: action.value.message, fromUser: false }],
+          messages: [
+            { text: action.value.message, fromUser: action.value.fromUser },
+          ],
         });
       } else {
         // Add existing messages
         currentContact.messages.push({
           text: action.value.message,
-          fromUser: false,
+          fromUser: action.value.fromUser,
         });
       }
-    }
-    case "send_message": {
-      const currentContact = draft.find(
-        (contact) => contact.id === action.value.id
-      );
 
-      if (currentContact == null) {
-        draft.unshift({
-          id: action.value.id,
-          messages: [{ text: action.value.message, fromUser: true }],
-        });
-      } else {
-        // Add existing messages
-        currentContact.messages.push({
-          text: action.value.message,
-          fromUser: true,
-        });
-      }
+      break;
     }
   }
 }
@@ -85,20 +68,10 @@ type Props = {
 };
 
 export default function ContactsProvider({ children }: Props) {
-  const socket = useSocket();
-
   const [contacts, dispatch] = useImmerReducer(
     contactsReducer,
     [] as Contact[]
   );
-
-  useEffect(() => {
-    if (socket == null) return;
-
-    socket.on("receive-message", (id: string, message: string) => {
-      dispatch({ type: "receive_message", value: { id: id, message } });
-    });
-  }, []);
 
   return (
     <ContactsContext.Provider value={contacts}>

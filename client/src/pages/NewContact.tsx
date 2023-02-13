@@ -30,19 +30,12 @@ export default function NewContact() {
             socket.emit("send-message", sendMessageTo, "Hello");
 
             dispatch({
-              type: "send_message",
-              value: { id: sendMessageTo, message: "Hello" },
+              type: "add_message",
+              value: { id: sendMessageTo, message: "Hello", fromUser: true },
             });
           } else {
             alert("This User Does not Exist!");
           }
-
-          // dispatch({ type: "add_contact", value: contactId });
-
-          //   if (contactId) {
-          //     socket.emit("add-contact", contactId);
-          //     setContactId("");
-          //   }
         }}
         className="relative flex items-center gap-2 p-4 border-b border-gray-1">
         <div>To:</div>

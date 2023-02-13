@@ -22,7 +22,10 @@ export default function ChatComposer() {
         if (message && contactId) {
           socket.emit("send-message", contactId, message);
           setMessage("");
-          dispatch({ type: "send_message", value: { id: contactId, message } });
+          dispatch({
+            type: "add_message",
+            value: { id: contactId, message, fromUser: true },
+          });
         }
       }}>
       <Input

@@ -1,19 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContacts } from "../context/ContactsProvider";
+import { useContacts, useContactsDispatch } from "../context/ContactsProvider";
 import Avatar from "./Avatar";
+import { useSocket } from "../context/SocketProvider";
 
 export default function ContactList() {
+  const socket = useSocket();
   const contacts = useContacts();
-  // const [contacts, setContacts] = useState<string[]>([]);
-  // const socket = useSocket();
-  // const [users, setUsers] = useState<string[]>([]);
+  const dispatch = useContactsDispatch();
 
-  // useEffect(() => {
-  //   socket.on("contacts", (id: string) => {
-  //     setContacts([...contacts, id]);
-  //   });
-  // }, [contacts]);
+  useEffect(() => {
+    if (socket == null) return;
+
+    socket.on("receive-message", (id: string, message: string) => {
+      dispatch({
+        type: "add_message",
+        value: { id, message, fromUser: false },
+      });
+    });
+
+    () => socket.off("receive-message");
+  }, []);
 
   return (
     <div className="flex flex-col gap-2 max-h-[50rem] h-full pr-2 overflow-y-auto">
