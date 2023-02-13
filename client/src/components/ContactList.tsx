@@ -46,7 +46,7 @@ ContactList.Item = ({ id, name, message }: ContactListItemProps) => {
     <div
       className="flex items-center gap-2 p-4 rounded-lg hover:bg-gray-2 shadow shadow-neutral-300 cursor-pointer"
       onClick={() => {
-        navigate(`/contacts/${id}`, { replace: true });
+        navigate(`/${id}`, { replace: true });
         if (!isRead) {
           setIsRead(true);
         }

@@ -1,34 +1,35 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
+import ContactContent from "./components/ContactContent";
+import ContactDetails from "./components/ContactDetails";
+import ContactsSidebar from "./components/ContactsSidebar";
 import ContactsProvider from "./context/ContactsProvider";
 import SocketProvider from "./context/SocketProvider";
-import ContactsLayout from "./layouts/RootLayout";
 import NewContact from "./pages/NewContact";
-import ContactContent from "./components/ContactContent";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <ContextWrapper />,
+    element: <App />,
     children: [
       {
-        path: "/contacts",
-        element: <ContactsLayout />,
+        element: <ContactContent />,
         children: [
           {
-            path: "new",
+            path: "/new",
             element: <NewContact />,
           },
-          { path: ":contactId", element: <ContactContent /> },
+          { path: "/:contactId", element: <ContactDetails /> },
         ],
       },
     ],
   },
 ]);
 
-function ContextWrapper() {
+function App() {
   return (
     <SocketProvider>
       <ContactsProvider>
+        <ContactsSidebar />
         <Outlet />
       </ContactsProvider>
     </SocketProvider>
