@@ -27,7 +27,12 @@ export default function NewContact() {
 
           if (users.includes(sendMessageTo)) {
             // Send Message to User
-            socket.emit("message", "Hello", sendMessageTo);
+            socket.emit("send-message", sendMessageTo, "Hello");
+
+            dispatch({
+              type: "send_message",
+              value: { id: sendMessageTo, message: "Hello" },
+            });
           } else {
             alert("This User Does not Exist!");
           }

@@ -3,11 +3,15 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { useSocket } from "../context/SocketProvider";
 import Input from "./Input";
 import { useParams } from "react-router-dom";
+import { useContactsDispatch } from "../context/ContactsProvider";
+
+type Props = {};
 
 export default function ChatComposer() {
   const socket = useSocket();
   const [message, setMessage] = useState("");
-  // const { contactId } = useParams();
+  const { contactId } = useParams();
+  const dispatch = useContactsDispatch();
 
   return (
     <form
@@ -15,10 +19,11 @@ export default function ChatComposer() {
       onSubmit={(e) => {
         e.preventDefault();
 
-        // if (message && contactId) {
-        //   socket.emit("message", contactId, message);
-        //   setMessage("");
-        // }
+        if (message && contactId) {
+          socket.emit("send-message", contactId, message);
+          setMessage("");
+          dispatch({ type: "send_message", value: { id: contactId, message } });
+        }
       }}>
       <Input
         value={message}
