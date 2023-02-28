@@ -4,6 +4,7 @@ import { useContacts, useContactsDispatch } from "../context/ContactsProvider";
 import Avatar from "./Avatar";
 import { useSocket } from "../context/SocketProvider";
 import { useUsers } from "../context/UsersProvider";
+import { TbMessagesOff } from "react-icons/tb";
 
 export default function ContactList() {
   const socket = useSocket();
@@ -21,7 +22,46 @@ export default function ContactList() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2 max-h-[50rem] h-full pr-2 overflow-y-auto">
+    <div className="flex flex-col gap-2 max-h-[45rem] h-full pr-2 overflow-y-auto">
+      {contacts.length === 0 && (
+        <div className="h-full flex flex-col justify-center items-center">
+          <TbMessagesOff size={48} />
+          <div>No Contacts Yet.</div>
+        </div>
+      )}
+
+      {contacts.length > 0 &&
+        contacts.map((contact, index) => {
+          const userName =
+            users.find((user) => user.id === contact.id)?.name ?? "User";
+          const lastMessage =
+            contact.messages[contact.messages.length - 1].text;
+
+          return (
+            <ContactList.Item
+              key={index}
+              id={contact.id}
+              name={userName}
+              message={lastMessage}
+            />
+          );
+        })}
+
+      {contacts.map((contact, index) => {
+        const userName =
+          users.find((user) => user.id === contact.id)?.name ?? "User";
+        const lastMessage = contact.messages[contact.messages.length - 1].text;
+
+        return (
+          <ContactList.Item
+            key={index}
+            id={contact.id}
+            name={userName}
+            message={lastMessage}
+          />
+        );
+      })}
+
       {contacts.map((contact, index) => {
         const userName =
           users.find((user) => user.id === contact.id)?.name ?? "User";

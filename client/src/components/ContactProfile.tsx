@@ -4,11 +4,13 @@ import Avatar from "./Avatar";
 import { useEffect, useState } from "react";
 import { useUsers } from "../context/UsersProvider";
 import { useNavigate } from "react-router-dom";
+import CircularButton from "./CircularButton";
 
 export default function ContactProfile() {
   const socket = useSocket();
   const [socketId, setSocketId] = useState(socket.id);
-  const currentUser = useUsers().find((user) => user.id === socket.id);
+  const users = useUsers();
+  const currentUser = users.find((user) => user.id === socket.id);
   const navigate = useNavigate();
 
   // This makes sure the socket ID is not undefined
@@ -19,7 +21,7 @@ export default function ContactProfile() {
   }, []);
 
   return (
-    <div className="flex justify-between items-center p-4 rounded-lg rounded-t-none hover:bg-gray-2 shadow shadow-neutral-300">
+    <div className="flex justify-between items-center p-4 border border-l-0 border-gray-1">
       <div className="flex gap-2">
         <Avatar imageUrl="/images/avatar.png" />
         <div>
@@ -27,9 +29,8 @@ export default function ContactProfile() {
           <div className="font-medium text-xs text-[#A7A5A5]">{`#${socketId}`}</div>
         </div>
       </div>
-      <MdLogout
-        className="cursor-pointer"
-        size={24}
+      <CircularButton
+        icon={MdLogout}
         onClick={() => {
           navigate("/");
         }}

@@ -22,7 +22,7 @@ export default function Login() {
           navigate("/contacts");
         }}
         className="flex flex-col gap-4 items-center">
-        <h1 className="text-4xl font-bold">Welcome</h1>
+        <h1 className="text-4xl font-bold">ChatterBox</h1>
         <Input
           ref={usernameRef}
           className="w-64 rounded-none"
