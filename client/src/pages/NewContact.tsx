@@ -29,6 +29,7 @@ export default function NewContact() {
       <div>To:</div>
       <Input
         value={receiverId}
+        placeholder="Enter Valid User ID"
         onChange={(e) => setReceiverId(e.target.value)}
       />
       <button className="absolute top-1/2 -translate-y-1/2 right-8">

@@ -46,36 +46,6 @@ export default function ContactList() {
             />
           );
         })}
-
-      {contacts.map((contact, index) => {
-        const userName =
-          users.find((user) => user.id === contact.id)?.name ?? "User";
-        const lastMessage = contact.messages[contact.messages.length - 1].text;
-
-        return (
-          <ContactList.Item
-            key={index}
-            id={contact.id}
-            name={userName}
-            message={lastMessage}
-          />
-        );
-      })}
-
-      {contacts.map((contact, index) => {
-        const userName =
-          users.find((user) => user.id === contact.id)?.name ?? "User";
-        const lastMessage = contact.messages[contact.messages.length - 1].text;
-
-        return (
-          <ContactList.Item
-            key={index}
-            id={contact.id}
-            name={userName}
-            message={lastMessage}
-          />
-        );
-      })}
     </div>
   );
 }

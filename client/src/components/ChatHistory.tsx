@@ -11,7 +11,7 @@ export default function ChatHistory() {
   );
 
   return (
-    <div className="flex flex-col h-screen max-h-[50rem] gap-2 p-3 overflow-y-auto">
+    <div className="flex flex-col justify-end h-screen max-h-[50rem] gap-2 p-3 overflow-y-auto">
       {contacts.length > 0 &&
         currentConversation?.messages.map((message, index) => (
           <Message
