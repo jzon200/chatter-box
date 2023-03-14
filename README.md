@@ -1,4 +1,4 @@
-# ASG Chat App
+# ChatterBox
 
 ## How to use
 
